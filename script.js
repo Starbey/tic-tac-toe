@@ -6,10 +6,6 @@ const Player =(symbol)=>{
         return symbol;
     }
 
-    const getSign = () => {
-        return sign;
-      };
-
     return {getSymbol};
 }
 
@@ -46,6 +42,7 @@ const board=(()=>{
 //Game controller module
 const gameController=(()=>{
     let currentPlayer=playerX;
+    let numRound=1;
     
     const setCurrentPlayer=(player)=>{
         currentPlayer=player;
@@ -55,21 +52,48 @@ const gameController=(()=>{
         return currentPlayer;
     }
 
+    const getCurrentPlayerSymbol=()=>{
+        return numRound%2===1?playerX.getSymbol():playerO.getSymbol();
+    }
+
+    const playRound=(field,fieldIndex)=>{
+        board.setField(fieldIndex,getCurrentPlayerSymbol());
+        displayController.setFieldText(field,getCurrentPlayerSymbol());
+        displayController.setGameText(`Your turn, ${getCurrentPlayerSymbol()}`);
+        numRound++;
+
+    }
+
     return {
         setCurrentPlayer,
-        getCurrentPlayer
+        getCurrentPlayer,
+        playRound
     }
 })();
 
 //Display controller module
 const displayController=(()=>{
-    fields=document.querySelectorAll(".field");
+    gameTextEl=document.querySelector(".game-text");
+    fieldsEl=document.querySelectorAll(".field");
 
-    fields.forEach((field)=>{
+    fieldsEl.forEach((field)=>{
         field.addEventListener("click",e=>{
-            console.log()
-            field.textContent=gameController.getCurrentPlayer().getSymbol();
+            if (board.getField(e.target.dataset.index)!=="") return;//prevents user from marking the same square more than once
+            gameController.playRound(field,parseInt(e.target.dataset.index));        
         })
     })
+
+    const setFieldText=(field,symbol)=>{
+        field.textContent=symbol;
+    }
+
+    const setGameText=(text)=>{
+        gameTextEl.textContent=text;
+    }
+
+    return{
+        setFieldText,
+        setGameText
+    }
 })();
 
