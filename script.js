@@ -16,13 +16,11 @@ let playerO=Player("O");
 const board=(()=>{
     const squares=["","","","","","","","",""];
 
-    //setters
     const setField=(i,symbol)=>{
         squares[i]=symbol;
     }
 
-    //getters
-    const getField=(i,symbol)=>{
+    const getField=(i)=>{
         return squares[i];
     }
 
@@ -43,6 +41,7 @@ const board=(()=>{
 const gameController=(()=>{
     let currentPlayer=playerX;
     let numRound=1;
+    let isOver=false;
     
     const setCurrentPlayer=(player)=>{
         currentPlayer=player;
@@ -56,12 +55,44 @@ const gameController=(()=>{
         return numRound%2===1?playerX.getSymbol():playerO.getSymbol();
     }
 
-    const playRound=(field,fieldIndex)=>{
+    const playRound=(field,fieldIndex)=>{    
         board.setField(fieldIndex,getCurrentPlayerSymbol());
-        displayController.setFieldText(field,getCurrentPlayerSymbol());
-        displayController.setGameText(`Your turn, ${getCurrentPlayerSymbol()}`);
+        displayController.setFieldText(field,getCurrentPlayerSymbol());    
+        checkWin();
         numRound++;
+        displayController.setGameText(`Your turn, ${getCurrentPlayerSymbol()}`);
 
+    }
+
+    const checkWin=()=>{
+        const winCons=[
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+
+        winCons.forEach((winCon)=>{
+            let greenMarks=[];
+
+            winCon.forEach((fieldIndex)=>{
+                if (board.getField(fieldIndex)===getCurrentPlayerSymbol){
+                    greenMarks.push(board.getField(fieldIndex));
+                }
+                
+                if (greenMarks.length===3){
+                    endRound(true,greenMarks);
+                }
+            })
+        })
+    }
+
+    const endRound=(isWinner,greenMarks)=>{
+        console.log(`${getCurrentPlayerSymbol()} wins!`);
     }
 
     return {
@@ -78,8 +109,8 @@ const displayController=(()=>{
 
     fieldsEl.forEach((field)=>{
         field.addEventListener("click",e=>{
-            if (board.getField(e.target.dataset.index)!=="") return;//prevents user from marking the same square more than once
-            gameController.playRound(field,parseInt(e.target.dataset.index));        
+            if (board.getField(e.target.dataset.index)==="")//prevents user from marking the same square more than once
+                gameController.playRound(field,parseInt(e.target.dataset.index));        
         })
     })
 
