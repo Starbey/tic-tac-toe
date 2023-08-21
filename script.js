@@ -61,7 +61,6 @@ const gameController=(()=>{
         checkWin();
 
         if(isOver===true) return;
-
         numRound++;
         displayController.setGameText(`Your turn, ${getCurrentPlayerSymbol()}`);
 
@@ -103,8 +102,13 @@ const gameController=(()=>{
     }
 
     const endRound=(isWinner,greenMarks)=>{
-        if (!isWinner) return;
-        console.log(`${getCurrentPlayerSymbol()} wins!`);
+        if (isWinner){
+            displayController.setGameText(`${getCurrentPlayerSymbol()} wins!`);
+        }
+        else {
+            displayController.setGameText("Draw!");
+        }
+        
     }
 
     return {
