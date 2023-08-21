@@ -13,7 +13,8 @@ const Player =(symbol)=>{
     return {getSymbol};
 }
 
-let playerOne=Player("X");
+let playerX=Player("X");
+let playerO=Player("O");
 
 //Gameboard module; created immediately due to module pattern
 const board=(()=>{
@@ -42,13 +43,33 @@ const board=(()=>{
     }
 })();
 
+//Game controller module
+const gameController=(()=>{
+    let currentPlayer=playerX;
+    
+    const setCurrentPlayer=(player)=>{
+        currentPlayer=player;
+    }
+
+    const getCurrentPlayer=()=>{
+        return currentPlayer;
+    }
+
+    return {
+        setCurrentPlayer,
+        getCurrentPlayer
+    }
+})();
+
 //Display controller module
 const displayController=(()=>{
     fields=document.querySelectorAll(".field");
 
     fields.forEach((field)=>{
         field.addEventListener("click",e=>{
-            field.textContent=playerOne.getSymbol();
+            console.log()
+            field.textContent=gameController.getCurrentPlayer().getSymbol();
         })
     })
 })();
+
