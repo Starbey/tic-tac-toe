@@ -59,6 +59,7 @@ const gameController=(()=>{
         board.setField(fieldIndex,getCurrentPlayerSymbol());
         displayController.setFieldText(field,getCurrentPlayerSymbol());    
         checkWin();
+        checkDraw();
 
         if(isOver===true) return;
         numRound++;
@@ -68,6 +69,12 @@ const gameController=(()=>{
 
     const getIsOver=()=>{
         return isOver;
+    }
+
+    const checkDraw=()=>{
+        if (numRound!==9) return;
+        isOver=true;
+        endRound(false);
     }
 
     const checkWin=()=>{
