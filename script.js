@@ -67,6 +67,10 @@ const gameController=(()=>{
 
     }
 
+    const getIsOver=()=>{
+        return isOver;
+    }
+
     const checkWin=()=>{
         const winCons=[
             //horizontal
@@ -99,12 +103,14 @@ const gameController=(()=>{
     }
 
     const endRound=(isWinner,greenMarks)=>{
+        if (!isWinner) return;
         console.log(`${getCurrentPlayerSymbol()} wins!`);
     }
 
     return {
         setCurrentPlayer,
         getCurrentPlayer,
+        getIsOver,
         playRound
     }
 })();
@@ -116,7 +122,7 @@ const displayController=(()=>{
 
     fieldsEl.forEach((field)=>{
         field.addEventListener("click",e=>{
-            if (board.getField(e.target.dataset.index)==="")//prevents user from marking the same square more than once
+            if (gameController.getIsOver()||board.getField(e.target.dataset.index)!=="") return;//prevents user from marking the same square more than once
                 gameController.playRound(field,parseInt(e.target.dataset.index));        
         })
     })
