@@ -59,6 +59,9 @@ const gameController=(()=>{
         board.setField(fieldIndex,getCurrentPlayerSymbol());
         displayController.setFieldText(field,getCurrentPlayerSymbol());    
         checkWin();
+
+        if(isOver===true) return;
+
         numRound++;
         displayController.setGameText(`Your turn, ${getCurrentPlayerSymbol()}`);
 
@@ -66,12 +69,15 @@ const gameController=(()=>{
 
     const checkWin=()=>{
         const winCons=[
+            //horizontal
             [0, 1, 2],
             [3, 4, 5],
             [6, 7, 8],
+            //vertical
             [0, 3, 6],
             [1, 4, 7],
             [2, 5, 8],
+            //diagonal
             [0, 4, 8],
             [2, 4, 6],
         ];
@@ -80,11 +86,12 @@ const gameController=(()=>{
             let greenMarks=[];
 
             winCon.forEach((fieldIndex)=>{
-                if (board.getField(fieldIndex)===getCurrentPlayerSymbol){
+                if (board.getField(fieldIndex)===getCurrentPlayerSymbol()){
                     greenMarks.push(board.getField(fieldIndex));
                 }
                 
                 if (greenMarks.length===3){
+                    isOver=true;
                     endRound(true,greenMarks);
                 }
             })
