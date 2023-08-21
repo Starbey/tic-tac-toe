@@ -97,11 +97,12 @@ const gameController=(()=>{
 
             winCon.forEach((fieldIndex)=>{
                 if (board.getField(fieldIndex)===getCurrentPlayerSymbol()){
-                    greenMarks.push(board.getField(fieldIndex));
+                    greenMarks.push(fieldIndex);
                 }
                 
                 if (greenMarks.length===3){
                     isOver=true;
+                    console.log(greenMarks);
                     endRound(true,greenMarks);
                 }
             })
@@ -121,6 +122,7 @@ const gameController=(()=>{
     return {
         setCurrentPlayer,
         getCurrentPlayer,
+        getCurrentPlayerSymbol,
         getIsOver,
         playRound
     }
