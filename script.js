@@ -24,7 +24,7 @@ const board=(()=>{
         return squares[i];
     }
 
-    const clear=()=>{
+    const reset=()=>{
         for(let i=0;i<squares.length;i++){
             squares[i]="";
         }
@@ -33,23 +33,14 @@ const board=(()=>{
     return {
         setField,
         getField,
-        clear
+        reset
     }
 })();
 
 //Game controller module
 const gameController=(()=>{
-    let currentPlayer=playerX;
     let numRound=1;
     let isOver=false;
-    
-    const setCurrentPlayer=(player)=>{
-        currentPlayer=player;
-    }
-
-    const getCurrentPlayer=()=>{
-        return currentPlayer;
-    }
 
     const getCurrentPlayerSymbol=()=>{
         return numRound%2===1?playerX.getSymbol():playerO.getSymbol();
@@ -102,7 +93,6 @@ const gameController=(()=>{
                 
                 if (greenMarks.length===3){
                     isOver=true;
-                    console.log(greenMarks);
                     endRound(true,greenMarks);
                 }
             })
@@ -119,19 +109,31 @@ const gameController=(()=>{
         
     }
 
+    const reset=()=>{
+        numRound=1;
+        isOver=false;
+    }
+
     return {
-        setCurrentPlayer,
-        getCurrentPlayer,
         getCurrentPlayerSymbol,
         getIsOver,
-        playRound
+        playRound,
+        reset
     }
 })();
 
 //Display controller module
 const displayController=(()=>{
-    gameTextEl=document.querySelector(".game-text");
+    gameTextEl=document.getElementById("game-text");
     fieldsEl=document.querySelectorAll(".field");
+    playAgainBtn=document.getElementById("restart-button");
+
+    playAgainBtn.addEventListener("click",(e)=>{
+        board.reset();
+        gameController.reset();
+        reset();
+        setGameText("Your turn, X");
+    })
 
     fieldsEl.forEach((field)=>{
         field.addEventListener("click",e=>{
@@ -146,6 +148,12 @@ const displayController=(()=>{
 
     const setGameText=(text)=>{
         gameTextEl.textContent=text;
+    }
+
+    const reset=()=>{
+        for (let i=0;i<fieldsEl.length;i++){
+            fieldsEl[i].textContent="";
+        }
     }
 
     return{
