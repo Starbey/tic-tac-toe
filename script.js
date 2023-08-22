@@ -63,7 +63,7 @@ const gameController=(()=>{
     }
 
     const checkDraw=()=>{
-        if (numRound!==9) return;
+        if (numRound!==9||isOver===true) return;
         isOver=true;
         endRound(false);
     }
