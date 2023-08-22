@@ -188,3 +188,15 @@ html {
       font-size: 36px;
     }
   }
+
+  .animateMark {
+    animation-name: animateMarker;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+}
+
+  @keyframes animateMark {
+    0% {font-size: 0;}
+    60% {font-size: 9em;}
+    100% {font-size: 7em;} 
+}

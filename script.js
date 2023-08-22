@@ -49,6 +49,7 @@ const gameController=(()=>{
     const playRound=(field,fieldIndex)=>{    
         board.setField(fieldIndex,getCurrentPlayerSymbol());
         displayController.setFieldText(field,getCurrentPlayerSymbol());    
+        displayController.animateMark(field);
         checkWin();
         checkDraw();
 
@@ -148,6 +149,11 @@ const displayController=(()=>{
         })
     })
 
+    const animateMark=(field)=>{
+        field.classList.add("animateMark");
+        
+    }
+
     const setFieldText=(field,symbol)=>{
         field.textContent=symbol;
     }
@@ -176,6 +182,7 @@ const displayController=(()=>{
     }
 
     return{
+        animateMark,
         setFieldText,
         setGameText,
         setGameTextColor,
