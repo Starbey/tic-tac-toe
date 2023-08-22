@@ -150,15 +150,21 @@ const displayController=(()=>{
         gameTextEl.textContent=text;
     }
 
+    const setGameTextColor=(color)=>{
+        gameTextEl.style.color=color;
+    }
+
     const reset=()=>{
         for (let i=0;i<fieldsEl.length;i++){
             fieldsEl[i].textContent="";
         }
+        gameTextEl.style.color="#602179";
     }
 
     return{
         setFieldText,
-        setGameText
+        setGameText,
+        setGameTextColor
     }
 })();
 

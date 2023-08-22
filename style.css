@@ -5,12 +5,13 @@ html {
     --header-font-color: #effa8f;
     --field-background-color: #f0cbff;
     --field-background-color-hover: #dc9bfa;
+    --field-mark-color:#000000a2;
     --border-color: #555;
     --blue-border-color: #2a3a46;
     --button-background-color: #602179;
     --button-hover-background: #9d3ac4;
     --button-active-background: #2a3a46;
-    --font: sans-serif;
+    --font: Cookie, sans-serif;
   }
   
   *,
@@ -91,6 +92,8 @@ html {
     text-align: center;
     cursor: pointer;
     user-select: none;
+    font-family:sans-serif;
+    color:var(--field-mark-color);
   }
   
   .field:hover {
@@ -133,6 +136,7 @@ html {
     width: 100%;
     padding: 10px;
     font-size: 20px;
+    font-family: sans-serif;
   }
   
   .fa-github {
