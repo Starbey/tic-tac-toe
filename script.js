@@ -101,9 +101,12 @@ const gameController=(()=>{
 
     const endRound=(isWinner,greenMarks)=>{
         if (isWinner){
+            displayController.setWinningMarkColor(greenMarks,"#058528");
+            displayController.setGameTextColor("#058528");
             displayController.setGameText(`${getCurrentPlayerSymbol()} wins!`);
         }
         else {
+            displayController.setGameTextColor("#de8b07");
             displayController.setGameText("Draw!");
         }
         
@@ -124,9 +127,12 @@ const gameController=(()=>{
 
 //Display controller module
 const displayController=(()=>{
-    gameTextEl=document.getElementById("game-text");
-    fieldsEl=document.querySelectorAll(".field");
-    playAgainBtn=document.getElementById("restart-button");
+    const green="#058528"
+    const gameTextPurple="#602179";
+    const gray="#000000a2";
+    const gameTextEl=document.getElementById("game-text");
+    const fieldsEl=document.querySelectorAll(".field");
+    const playAgainBtn=document.getElementById("restart-button");
 
     playAgainBtn.addEventListener("click",(e)=>{
         board.reset();
@@ -154,17 +160,26 @@ const displayController=(()=>{
         gameTextEl.style.color=color;
     }
 
+    const setWinningMarkColor=(markIndeces,color)=>{
+        markIndeces.forEach((markIndex)=>{
+            fieldsEl[markIndex].style.color=color;
+        })
+    }
+
     const reset=()=>{
         for (let i=0;i<fieldsEl.length;i++){
             fieldsEl[i].textContent="";
+            fieldsEl[i].style.color=gray;
+            console.log("reset "+i);
         }
-        gameTextEl.style.color="#602179";
+        gameTextEl.style.color=gameTextPurple;
     }
 
     return{
         setFieldText,
         setGameText,
-        setGameTextColor
+        setGameTextColor,
+        setWinningMarkColor
     }
 })();
 
